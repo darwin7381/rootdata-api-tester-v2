@@ -8,20 +8,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 const API_KEY = process.env.ROOTDATA_API_KEY;
 
-// 处理端口被占用的情况
-const startServer = (port) => {
-  const server = app.listen(port, () => {
-    console.log(`服务器运行在 http://localhost:${port}`);
-    console.log(`API 密钥: ${API_KEY ? '已配置' : '未配置'}`);
-  }).on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      console.log(`端口 ${port} 已被占用，尝试使用端口 ${port + 1}`);
-      startServer(port + 1);
-    } else {
-      console.error('服务器启动失败:', err);
-    }
-  });
-};
+// 简化服务器启动逻辑，更适合 Vercel 环境
+app.listen(port, () => {
+  console.log(`服务器运行在端口 ${port}`);
+  console.log(`API 密钥: ${API_KEY ? '已配置' : '未配置'}`);
+}).on('error', (err) => {
+  console.error('服务器启动失败:', err);
+});
 
 // 中间件
 app.use(cors());
@@ -790,7 +783,4 @@ app.post('/api/x-hot-projects', async (req, res) => {
       data: error.response?.data || {}
     });
   }
-});
-
-// 启动服务器
-startServer(port); 
+}); 
