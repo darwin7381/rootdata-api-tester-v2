@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RootData API 测试工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1 class="text-center mb-4">RootData API 测试工具</h1>
+    
+    <div class="alert alert-info mb-4">
+      <h5>使用说明</h5>
+      <ol>
+        <li>从左侧选择一个 API 端点</li>
+        <li>填写必要的参数（带 * 的为必填项）</li>
+        <li>点击"发送请求"按钮</li>
+        <li>查看右侧的响应结果（可切换原始 JSON 或渲染视图）</li>
+      </ol>
+      <p class="mb-0"><strong>提示：</strong> 每个输入框都提供了示例值，可以直接使用这些示例进行测试。</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">API 端点</h5>
+          </div>
+          <div class="card-body">
+            <div class="list-group" id="api-endpoints">
+              <button class="list-group-item list-group-item-action" data-endpoint="search">搜索项目/VC/人物</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="get-item">获取项目详情</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="get-vc">获取 VC 详情</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="get-people">获取人物详情</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="get-investor-batch">批量获取投资者信息</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="get-fundraising-batch">批量获取融资轮次</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="sync-update">同步更新</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="batch-sync-update">批量同步更新</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="top-100">Top 100 热门项目</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="x-hot-projects">X 热门项目</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="x-leading-figures">X 热门人物</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="job-changes">人物职位动态</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="tag-map">标签地图</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="projects-by-ecosystem">基于生态系统获取项目</button>
+              <button class="list-group-item list-group-item-action" data-endpoint="projects-by-tags">基于标签获取项目</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">推荐测试</h5>
+          </div>
+          <div class="card-body">
+            <div class="list-group">
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="search" data-params='{"query":"Fetch.ai"}'>
+                搜索 "Fetch.ai"
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="get-item" data-params='{"id":"150"}'>
+                获取 Fetch.ai 项目详情
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="top-100" data-params='{"days":"7"}'>
+                获取 7 天热门项目
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="tag-map" data-params='{}'>
+                获取标签地图
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="x-leading-figures" data-params='{"page":"1","page_size":"10","rank_type":"heat"}'>
+                获取 X 热门人物
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="x-hot-projects" data-params='{"page":"1","page_size":"10"}'>
+                获取 X 热门项目
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="job-changes" data-params='{"page":"1","page_size":"10"}'>
+                获取人物职位动态
+              </button>
+              <button class="list-group-item list-group-item-action recommended-test" data-endpoint="batch-sync-update" data-params='{"start_date":"2023-01-01","end_date":"2023-01-03","batch_days":"1"}'>
+                批量同步更新
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">请求参数</h5>
+            <button class="btn btn-primary" id="send-request">发送请求</button>
+          </div>
+          <div class="card-body">
+            <div id="params-container">
+              <!-- 动态生成的参数表单将显示在这里 -->
+              <div class="alert alert-info">
+                请从左侧选择一个 API 端点
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">响应结果</h5>
+            <div>
+              <div class="btn-group me-2">
+                <button class="btn btn-sm btn-outline-secondary active" id="view-raw">原始 JSON</button>
+                <button class="btn btn-sm btn-outline-secondary" id="view-rendered">渲染视图</button>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary" id="copy-response">复制</button>
+              <button class="btn btn-sm btn-outline-secondary ms-2" id="clear-response">清除</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="response-wrapper">
+              <pre id="response-container" class="response-container">// 响应结果将显示在这里</pre>
+              <div id="rendered-response" class="rendered-response" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html> 
