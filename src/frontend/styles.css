@@ -7,6 +7,7 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   border: none;
   background-color: #1e1e1e;
+  margin-bottom: 20px;
 }
 
 .card-header {
@@ -177,6 +178,57 @@ body {
   background-color: #2a2a2a;
 }
 
+/* 项目信息卡片样式 */
+.project-info {
+  margin-bottom: 20px;
+}
+
+.project-logo {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 4px;
+}
+
+.project-desc {
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.project-details {
+  margin-top: 15px;
+}
+
+.detail-item {
+  margin-bottom: 5px;
+}
+
+.detail-item .label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* 标签样式 */
+.tags-container {
+  margin-bottom: 20px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* 社交媒体链接样式 */
+.social-container {
+  margin-bottom: 20px;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 @keyframes fadeOut {
   from { opacity: 1; }
   to { opacity: 0; }
@@ -192,7 +244,13 @@ body {
 }
 
 /* 响应式调整 */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+  .container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
   .card-header {
     flex-direction: column;
     align-items: flex-start;
@@ -201,5 +259,99 @@ body {
   .card-header .btn {
     margin-top: 10px;
     width: 100%;
+  }
+  
+  .btn-group {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .btn-group .btn {
+    flex: 1;
+  }
+}
+
+/* 移动设备特定样式 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .alert ol, .alert ul {
+    padding-left: 20px;
+  }
+  
+  .response-container, .rendered-response {
+    max-height: 300px;
+    font-size: 12px;
+  }
+  
+  .list-group-item {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+  
+  .form-text {
+    font-size: 0.75rem;
+  }
+  
+  .btn {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .copy-success {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    font-size: 0.875rem;
+  }
+}
+
+/* 小屏幕手机特定样式 */
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .alert {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .alert h5 {
+    font-size: 1rem;
+  }
+  
+  .card-header h5 {
+    font-size: 1rem;
+  }
+  
+  .response-container, .rendered-response {
+    padding: 10px;
+    max-height: 250px;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .btn-group .btn {
+    margin-bottom: 5px;
+    border-radius: 0.25rem !important;
+  }
+  
+  .project-logo {
+    max-width: 30px;
+    max-height: 30px;
+  }
+  
+  .project-info .card-header h4 {
+    font-size: 1.1rem;
   }
 } 
